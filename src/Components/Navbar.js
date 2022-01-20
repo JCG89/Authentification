@@ -1,7 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
+import { useContext } from 'react'
+import { UserContext } from '../context/UserContext';
 
 export default function Navbar() {
+
+      const { toggleModals } = useContext(UserContext)
       return (
             <nav className="navbar navbar-light px-4">
 
@@ -9,10 +13,10 @@ export default function Navbar() {
                         AuthJS
                   </Link>
                   <div>
-                        <button className="btn btn-primary">
+                        <button onClick={() => toggleModals("signUp")} className="btn btn-primary">
                               Inscription
                         </button>
-                        <button className="btn btn-primary ms-2">
+                        <button onClick={() => toggleModals("signIn")} className="btn btn-primary ms-2">
                               Connexion
                         </button>
                         <button className="btn btn-danger ms-2">

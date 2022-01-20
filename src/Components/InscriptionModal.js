@@ -1,20 +1,29 @@
 import React from 'react';
+/** J'importe useContext et le context que je vais utiliser UserContext */
+import { useContext } from "react"
+import { UserContext } from '../context/UserContext'
 
 export default function InscriptionModal() {
+
+      const { toggleModals, modalState } = useContext(UserContext)
+      console.log(toggleModals, modalState)
       return (
             // eslint-disable-next-line react/jsx-no-comment-textnodes
             <>
-            /** Mise en place de la modale */
-                  <div className="position-fixed top-0 vw-100 vh-100">
-                        {/**J'ajoute l'overlay*/}
-                        <div className="w-100 h-100 bg-dark bg-opacity-75">
-                              <div className="position-absolute top-50 start-50 translate-midle" style={{ minWidth: "400px" }}>
+                  {modalState.signUpModal && (
+                        <div className="position-fixed top-0 vw-100 vh-100">
+                              {/**J'ajoute l'overlay*/}
+                              <div onClick={() => toggleModals("close")} className="w-100 h-100 bg-dark bg-opacity-75">
+                              </div>
+                              <div className="position-absolute top-50 start-50 translate-midle" style={{ minWidth: "600px" }}>
                                     <div className="modal-dialog">
                                           <div className="modal-content">
                                                 <div className="modal-header">
                                                       <h5 className="modal-title">Inscription</h5>
-                                                      <button className="btn-close"></button>
+                                                      {/**J'execute la function toggleModal pour fermer la modale */}
+                                                      <button onClick={() => toggleModals("close")} className="btn-close"></button>
                                                 </div>
+                                                {/** le corp de la modal */}
                                                 <div className="modal-body">
                                                       <form className="sign-up-form">
                                                             <div className="mb-3">
@@ -42,14 +51,16 @@ export default function InscriptionModal() {
                                                                         id="signUpPwConfirm" />
                                                                   <p className="text-danger mt-1">validation</p>
                                                             </div>
-                                                            <btton className="btn  btn-primary">S'inscrire</btton>
+                                                            <button className="btn  btn-primary">S'inscrire</button>
                                                       </form>
                                                 </div>
                                           </div>
                                     </div>
                               </div>
+
                         </div>
-                  </div>
+                  )}
+
             </>
       );
 }
