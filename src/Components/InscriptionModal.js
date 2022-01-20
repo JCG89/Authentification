@@ -1,12 +1,34 @@
 import React from 'react';
 /** J'importe useContext et le context que je vais utiliser UserContext */
-import { useContext } from "react"
+import { useContext, useState, useRef } from "react"
 import { UserContext } from '../context/UserContext'
 
 export default function InscriptionModal() {
 
       const { toggleModals, modalState } = useContext(UserContext)
-      console.log(toggleModals, modalState)
+      const [validation, setValidation] = useState("")
+
+      /** On selectionne les inputs */
+      const inputs = useRef([])
+      const addInputs = el => {
+            // eslint-disable-next-line no-lone-blocks
+            {/** Si l'element existe et qu'il n'est pas déjà dans mon tableau  alors je le rajoute */ }
+            if (el && !inputs.current.includes(el)) {
+                  inputs.current.push(el)
+            }
+      }
+      const handleForm = e => {
+            e.preventDefault()
+            // eslint-disable-next-line no-lone-blocks
+            {/** validation des données côté front en comparant la valeur de la longueur des données */ }
+            if ((inputs.current[1].value.length || inputs.current[2].value.length) < 6) {
+                  setValidation(" votre mot de passe doit contenir 6 caractére min")
+                  return;
+                  {/** comparaison des mots de passe  */ }
+            } else if ((inputs.current[1].value !== inputs.current[2].value)) {
+                  setValidation(" Les mots de passe ne correspondent pas !")
+            }
+      }
       return (
             // eslint-disable-next-line react/jsx-no-comment-textnodes
             <>
@@ -25,10 +47,11 @@ export default function InscriptionModal() {
                                                 </div>
                                                 {/** le corp de la modal */}
                                                 <div className="modal-body">
-                                                      <form className="sign-up-form">
+                                                      <form onSubmit={handleForm} className="sign-up-form">
                                                             <div className="mb-3">
                                                                   <label className="form-label" htmlFor='signUpEmail'> Email</label>
                                                                   <input
+                                                                        ref={addInputs}
                                                                         name="email"
                                                                         required
                                                                         type="email" className="form-control"
@@ -37,6 +60,7 @@ export default function InscriptionModal() {
                                                             <div className="mb-3">
                                                                   <label className="form-label" htmlFor='signUpEmail'> Mot de passe </label>
                                                                   <input
+                                                                        ref={addInputs}
                                                                         name="password"
                                                                         required
                                                                         type="password" className="form-control"
@@ -45,11 +69,12 @@ export default function InscriptionModal() {
                                                             <div className="mb-3">
                                                                   <label className="form-label" htmlFor='signUpEmail'> Confirmer votre mot de passe </label>
                                                                   <input
+                                                                        ref={addInputs}
                                                                         name="password"
                                                                         required
                                                                         type="password" className="form-control"
                                                                         id="signUpPwConfirm" />
-                                                                  <p className="text-danger mt-1">validation</p>
+                                                                  <p className="text-danger mt-1">{validation}</p>
                                                             </div>
                                                             <button className="btn  btn-primary">S'inscrire</button>
                                                       </form>
