@@ -25,8 +25,9 @@ export default function InscriptionModal() {
                   setValidation(" votre mot de passe doit contenir 6 caractére min")
                   return;
                   {/** comparaison des mots de passe  */ }
-            } else if ((inputs.current[1].value !== inputs.current[2].value)) {
+            } if ((inputs.current[1].value !== inputs.current[2].value)) {
                   setValidation(" Les mots de passe ne correspondent pas !")
+                  return;
             }
       }
       return (
